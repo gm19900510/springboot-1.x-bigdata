@@ -1,0 +1,80 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    dynamic:
+      primary: hbase #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候回抛出异常,不启动会使用默认数据源.
+      datasource:
+        hbase:
+          url: jdbc:phoenix:S0:2181:/hbase
+          driver-class-name: org.apache.phoenix.jdbc.PhoenixDriver
+          username: postgres
+          password: postgres
+          maximum-pool-size: 15
+          minimum-idle: 10
+          pool-name: hbase-connection-pool
+          auto-commit: true
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          connection-timeout: 30000
+        hive:
+          url: jdbc:hive2://S0:10000/db_hive_test
+          driver-class-name: org.apache.hive.jdbc.HiveDriver
+          username: hive
+          password: 
+          maximum-pool-size: 15
+          minimum-idle: 10
+          pool-name: impala-connection-pool
+          auto-commit: true
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          connection-timeout: 30000
+        impala:
+          url: jdbc:impala://S1:21050/db_hive_test;auth=noSasl
+          driver-class-name: com.cloudera.impala.jdbc41.Driver  
+          username: postgres
+          password: postgres
+          maximum-pool-size: 15
+          minimum-idle: 10
+          pool-name: impala-connection-pool
+          auto-commit: true
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          connection-timeout: 30000
+        presto:
+          url: jdbc:presto://S3:10899/hive/db_hive_test
+          driver-class-name: com.facebook.presto.jdbc.PrestoDriver
+          username: hive
+          password: 
+          maximum-pool-size: 15
+          minimum-idle: 10
+          pool-name: presto-connection-pool
+          auto-commit: true
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          connection-timeout: 30000    
+        postgres:
+          url: jdbc:postgresql://192.168.3.249:5432/zfbazx?currentSchema=gg_ywzx
+          driver-class-name: org.postgresql.Driver
+          username: postgres
+          password: postgres
+          maximum-pool-size: 15
+          minimum-idle: 10
+          pool-name: postgres-connection-pool
+          auto-commit: true
+          idle-timeout: 600000
+          max-lifetime: 1800000
+          connection-timeout: 30000
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.entity
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
